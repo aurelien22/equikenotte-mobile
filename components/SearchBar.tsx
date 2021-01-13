@@ -1,0 +1,23 @@
+import React from 'react';
+import {Button, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+
+export const SearchBar = () => (
+    <View style={styles.searchBarContainer}>
+        <TextInput style={styles.searchInput} placeholder="Search" />
+    </View>
+)
+
+const styles = StyleSheet.create({
+    searchBarContainer: {
+    },
+    searchInput: {
+        marginLeft: 5,
+        marginRight: 5,
+        height: 30,
+        borderColor: "#000000",
+        borderWidth: 1,
+        borderRadius: 10,
+        paddingLeft: 10
+    }
+
+})
