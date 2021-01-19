@@ -9,6 +9,10 @@ export const SearchBar = () => (
 
 const styles = StyleSheet.create({
     searchBarContainer: {
+        marginTop: 20,
+        marginBottom: 10,
+        marginLeft: 10,
+        marginRight: 10
     },
     searchInput: {
         marginLeft: 5,
@@ -16,7 +20,8 @@ const styles = StyleSheet.create({
         height: 30,
         borderColor: "#000000",
         borderWidth: 1,
-        borderRadius: 10,
+        borderRadius: 7
+        ,
         paddingLeft: 10
     }
 

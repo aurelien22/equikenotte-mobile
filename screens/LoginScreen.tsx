@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {
+    Alert,
     Image,
     SafeAreaView,
     StyleSheet,
@@ -13,7 +14,7 @@ import logo from '../assets/logo.png';
 import { useSelector, useDispatch } from "react-redux";
 import { ApplicationState, onLogin } from "../redux";
 
-export default function loginScreen(props) {
+export default function loginScreen(props: any) {
 
     const {navigation} = props
     const {navigate} = navigation

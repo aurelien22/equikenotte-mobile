@@ -1,31 +1,48 @@
-import React, {Component} from 'react';
-import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
-import {CustomersListView} from '../components/CustomersListView'
+import React, {Component, useEffect, useState} from 'react';
+import {ActivityIndicator, Button, FlatList, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {useDispatch, useSelector} from "react-redux";
+import {ApplicationState, setCustomers} from "../redux";
+import {TopBar} from "../components/TopBar";
+import {SearchBar} from "../components/SearchBar";
+import CustomerListItem from "../components/CustomerListItem";
 
-export default class CustomersScreen extends Component {
+export default function CustomersScreen (props: any) {
 
+    const dispatch = useDispatch();
 
-    state = {
-        customers: [
-            {
-                id: 1,
-                name: "aurélien",
-                surname: "dincuff"
-            },
-            {
-                id: 2,
-                name: "jennifer",
-                surname: "bouyou"
-            },
-        ]
-    }
+    const { customers } = useSelector((state: ApplicationState) => state.customerReducer);
 
-    render() {
-        return this.state.customers != null ? (
-            <CustomersListView customers = {this.state.customers} />
-        ) : (
-            <ActivityIndicator />
-        );
-    }
+    useEffect(() => {
+        dispatch(setCustomers(1))
+    }, [])
 
+    return (
+        <SafeAreaView >
+            <View style={styles.main_container}>
+                <SearchBar />
+                <FlatList
+                    data={customers}
+                    renderItem={({item}) => <CustomerListItem customer={item} navigation={props.navigation}/>}
+                    keyExtractor={(item) => item.id.toString()}
+                    style={styles.customersList}
+                />
+            </View>
+        </SafeAreaView>
+
+    )
 }
+
+const styles = StyleSheet.create({
+    main_container: {
+        display: "flex",
+        backgroundColor: 'white'
+    },
+    customersList: {
+        marginTop: 10,
+        borderTopColor: '#1796D4',
+        borderTopWidth: 2,
+    },
+    searchBar: {
+
+    }
+})
