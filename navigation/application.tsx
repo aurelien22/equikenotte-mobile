@@ -30,16 +30,7 @@ export default function ApplicationStack(props: any) {
                     fontSize: 20
                 },
             }}/>
-            <Stack.Screen name="NewCustomer" component={NewCustomerScreen} options={{
-                headerTitle: 'Nouveau client',
-                headerTitleStyle: {
-                    fontWeight: "bold",
-                    fontSize: 20,
-                },
-                headerRight: () => (
-                    <Button title={'Valider'} onPress={() => console.log('Dispatch action add customer')} />
-                )
-            }} />
+            <Stack.Screen name="NewCustomer" component={NewCustomerScreen} />
         </Stack.Navigator>
     )
 }

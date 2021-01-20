@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
-import {ActivityIndicator, SafeAreaView, StyleSheet, Text, TextInput, View} from 'react-native';
-import {Font} from "expo/build/removed.web";
+import React, {useLayoutEffect, useState} from 'react';
+import {ActivityIndicator, Button, SafeAreaView, StyleSheet, Text, TextInput, View} from 'react-native';
+import {onLogin} from "../redux";
+import {AntDesign} from "@expo/vector-icons";
 
-export default function NewCustomerScreen (props: any) {
+export default function NewCustomerScreen ({ navigation }) {
 
     const [surname, setSurname] = useState('');
     const [name, setName] = useState('');
@@ -12,37 +13,84 @@ export default function NewCustomerScreen (props: any) {
     const [phone, setPhone] = useState('');
     const [mail, setMail] = useState('');
 
+    const onValidateNewCustomer = () => {
+        // TO DO : Dispatch une action 'NEW_CUSTOMER' en envoyant les données du formulaie
+        console.log('Ajout du nouveau client');
+    }
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerTitle: 'Nouveau client',
+            headerTitleStyle: {
+                fontWeight: "bold",
+                fontSize: 20,
+            },
+            headerRight: () => (
+                <Button color="#1796D4" title={'Valider'} onPress={() => onValidateNewCustomer} />
+            )
+        })
+    }, [navigation])
+
+
     return(
 
         <SafeAreaView>
             <View style={styles.container}>
                 <View>
                     <Text style={styles.labels}>Nom</Text>
-                    <TextInput style={styles.inputs} />
+                    <TextInput
+                        value={surname}
+                        style={styles.inputs}
+                        onChangeText={(surname) => setSurname(surname)}
+                    />
                 </View>
                 <View>
                     <Text style={styles.labels}>Prénom</Text>
-                    <TextInput style={styles.inputs} />
+                    <TextInput
+                        value={name}
+                        style={styles.inputs}
+                        onChangeText={(name) => setName(name)}
+                    />
                 </View>
                 <View>
                     <Text style={styles.labels}>Adresse</Text>
-                    <TextInput style={styles.inputs} />
+                    <TextInput
+                        value={address}
+                        style={styles.inputs}
+                        onChangeText={(address) => setAddress(address)}
+                    />
                 </View>
                 <View>
                     <Text style={styles.labels}>CP</Text>
-                    <TextInput style={styles.inputs} />
+                    <TextInput
+                        value={postalCode}
+                        style={styles.inputs}
+                        onChangeText={(postalCode) => setPostalCode(postalCode)}
+                    />
                 </View>
                 <View>
                     <Text style={styles.labels}>Ville</Text>
-                    <TextInput style={styles.inputs} />
+                    <TextInput
+                        value={city}
+                        style={styles.inputs}
+                        onChangeText={(city) => setCity(city)}
+                    />
                 </View>
                 <View>
                     <Text style={styles.labels}>Téléphone</Text>
-                    <TextInput style={styles.inputs} />
+                    <TextInput
+                        value={phone}
+                        style={styles.inputs}
+                        onChangeText={(phone) => setPhone(phone)}
+                    />
                 </View>
                 <View>
                     <Text style={styles.labels}>Email</Text>
-                    <TextInput style={styles.inputs} />
+                    <TextInput
+                        value={mail}
+                        style={styles.inputs}
+                        onChangeText={(mail) => setMail(mail)}
+                    />
                 </View>
 
             </View>
