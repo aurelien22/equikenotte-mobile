@@ -1,26 +1,30 @@
 import {Dispatch} from "react";
 import axios from "axios";
-import {useSelector} from "react-redux";
-import {ApplicationState} from "../reducers";
 import {store} from "../store";
 
 export interface CustomerModel {
-    id: number,
+    id: number | null,
     name: string,
     surname: string,
     address: string,
     postalCode: string,
     city: string,
     phone: string,
-    mail: string
+    mail: string,
+    dentist: number | string | null
 }
 
 export interface SetCustomersAction {
     readonly type: 'SET_CUSTOMERS';
-    payload: any
+    payload: any;
 }
 
-export type CustomerAction = SetCustomersAction
+export interface AddCustomerAction {
+    readonly type: 'ADD_CUSTOMER';
+    payload: any;
+}
+
+export type CustomerAction = SetCustomersAction | AddCustomerAction
 
 // We need to dispatch action
 
@@ -41,6 +45,34 @@ export const setCustomers = (id: number) => {
                         payload: response.data['hydra:member']
                     }
                 )
+            }
+
+        } catch (e) {
+            console.log(e)
+        }
+    }
+}
+
+export const addCustomer = (customer: CustomerModel) => {
+
+    return async (dispatch: Dispatch<CustomerAction>) => {
+
+        try {
+
+            const response = await axios.post('http://192.168.1.51:8000/api/customers', {
+                ...customer,
+                dentist: "/api/dentists/1"
+            }, {
+                headers: {
+                    Authorization: `Bearer ${store.getState().userReducer.user.token}`
+                }
+            });
+
+            if (response.status == 201) {
+                dispatch({
+                    type: "ADD_CUSTOMER",
+                    payload: response.data
+                })
             }
 
         } catch (e) {

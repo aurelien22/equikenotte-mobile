@@ -15,12 +15,21 @@ const CustomersReducer = (state: CustomersState = initialState, action: Customer
 
         case "SET_CUSTOMERS":
 
-            console.log(action.payload)
-
             return {
                 ...state,
                 customers: action.payload
             }
+
+        case "ADD_CUSTOMER":
+
+            return {
+                ...state,
+                customers: [
+                    ...state.customers,
+                    action.payload
+                ]
+            }
+
         default:
             return state;
     }

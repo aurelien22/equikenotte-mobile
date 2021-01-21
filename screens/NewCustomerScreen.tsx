@@ -1,36 +1,41 @@
 import React, {useLayoutEffect, useState} from 'react';
-import {ActivityIndicator, Button, SafeAreaView, StyleSheet, Text, TextInput, View} from 'react-native';
-import {onLogin} from "../redux";
-import {AntDesign} from "@expo/vector-icons";
+import {Button, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {addCustomer, CustomerModel} from "../redux";
+import {useDispatch} from "react-redux";
 
 export default function NewCustomerScreen ({ navigation }) {
 
-    const [surname, setSurname] = useState('');
-    const [name, setName] = useState('');
-    const [address, setAddress] = useState('');
-    const [postalCode, setPostalCode] = useState('');
-    const [city, setCity] = useState('');
-    const [phone, setPhone] = useState('');
-    const [mail, setMail] = useState('');
+    const [surname, setSurname] = useState<string>('');
+    const [name, setName] = useState<string>('');
+    const [address, setAddress] = useState<string>('');
+    const [postalCode, setPostalCode] = useState<string>('');
+    const [city, setCity] = useState<string>('');
+    const [phone, setPhone] = useState<string>('');
+    const [mail, setMail] = useState<string>('');
+
+    const dispatch = useDispatch();
+
+    let customer: CustomerModel
 
     const onValidateNewCustomer = () => {
-        // TO DO : Dispatch une action 'NEW_CUSTOMER' en envoyant les données du formulaie
-        console.log('Ajout du nouveau client');
+
+        // On hydrate l'objet customer avec les données du formulaire
+
+        customer = {
+            id: null,
+            name: name,
+            surname: surname,
+            address: address,
+            postalCode: postalCode,
+            city: city,
+            phone: phone,
+            mail: mail,
+            dentist: null
+        }
+
+        dispatch(addCustomer(customer));
+        navigation.navigate('Customers')
     }
-
-    useLayoutEffect(() => {
-        navigation.setOptions({
-            headerTitle: 'Nouveau client',
-            headerTitleStyle: {
-                fontWeight: "bold",
-                fontSize: 20,
-            },
-            headerRight: () => (
-                <Button color="#1796D4" title={'Valider'} onPress={() => onValidateNewCustomer} />
-            )
-        })
-    }, [navigation])
-
 
     return(
 
@@ -41,7 +46,7 @@ export default function NewCustomerScreen ({ navigation }) {
                     <TextInput
                         value={surname}
                         style={styles.inputs}
-                        onChangeText={(surname) => setSurname(surname)}
+                        onChangeText = { text => setSurname(text) }
                     />
                 </View>
                 <View>
@@ -49,7 +54,7 @@ export default function NewCustomerScreen ({ navigation }) {
                     <TextInput
                         value={name}
                         style={styles.inputs}
-                        onChangeText={(name) => setName(name)}
+                        onChangeText={text => setName(text)}
                     />
                 </View>
                 <View>
@@ -57,7 +62,7 @@ export default function NewCustomerScreen ({ navigation }) {
                     <TextInput
                         value={address}
                         style={styles.inputs}
-                        onChangeText={(address) => setAddress(address)}
+                        onChangeText={text => setAddress(text)}
                     />
                 </View>
                 <View>
@@ -65,7 +70,7 @@ export default function NewCustomerScreen ({ navigation }) {
                     <TextInput
                         value={postalCode}
                         style={styles.inputs}
-                        onChangeText={(postalCode) => setPostalCode(postalCode)}
+                        onChangeText={text => setPostalCode(text)}
                     />
                 </View>
                 <View>
@@ -73,7 +78,7 @@ export default function NewCustomerScreen ({ navigation }) {
                     <TextInput
                         value={city}
                         style={styles.inputs}
-                        onChangeText={(city) => setCity(city)}
+                        onChangeText={text => setCity(text)}
                     />
                 </View>
                 <View>
@@ -81,7 +86,7 @@ export default function NewCustomerScreen ({ navigation }) {
                     <TextInput
                         value={phone}
                         style={styles.inputs}
-                        onChangeText={(phone) => setPhone(phone)}
+                        onChangeText={text => setPhone(text)}
                     />
                 </View>
                 <View>
@@ -89,15 +94,17 @@ export default function NewCustomerScreen ({ navigation }) {
                     <TextInput
                         value={mail}
                         style={styles.inputs}
-                        onChangeText={(mail) => setMail(mail)}
+                        onChangeText={text => setMail(text)}
                     />
                 </View>
-
+                <View style={styles.containerButton}>
+                    <TouchableOpacity style={styles.submitButton} onPress={onValidateNewCustomer}>
+                        <Text style={styles.buttonText}>Valider</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         </SafeAreaView>
-
     )
-
 }
 
 const styles = StyleSheet.create({
@@ -124,5 +131,20 @@ const styles = StyleSheet.create({
         borderColor: "#000000",
         borderWidth: 1,
         paddingLeft: 10
+    },
+    containerButton: {
+        alignItems: "center",
+    },
+    submitButton: {
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: '#1796D4',
+        width: '80%',
+        height: 40,
+        marginTop: 60,
+        borderRadius: 3
+    },
+    buttonText: {
+        color: 'white'
     },
 })

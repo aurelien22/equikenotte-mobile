@@ -3,7 +3,6 @@ import CustomersScreen from "../screens/CustomersScreen";
 import {createStackNavigator} from "@react-navigation/stack";
 import CustomerInfosScreen from "../screens/CustomerInfosScreen";
 import { AntDesign } from '@expo/vector-icons'
-import {Button} from "react-native";
 import NewCustomerScreen from "../screens/NewCustomerScreen";
 
 const Stack = createStackNavigator()
@@ -30,7 +29,13 @@ export default function ApplicationStack(props: any) {
                     fontSize: 20
                 },
             }}/>
-            <Stack.Screen name="NewCustomer" component={NewCustomerScreen} />
+            <Stack.Screen name="NewCustomer" component={NewCustomerScreen} options={{
+                headerTitle: 'Nouveau client',
+                headerTitleStyle: {
+                    fontWeight: "bold",
+                    fontSize: 20,
+                },
+            }} />
         </Stack.Navigator>
     )
 }
