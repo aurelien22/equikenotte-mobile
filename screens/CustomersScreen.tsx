@@ -2,7 +2,6 @@ import React, {Component, useEffect, useState} from 'react';
 import {ActivityIndicator, Button, FlatList, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {useDispatch, useSelector} from "react-redux";
 import {ApplicationState, setCustomers} from "../redux";
-import {TopBar} from "../components/TopBar";
 import {SearchBar} from "../components/SearchBar";
 import CustomerListItem from "../components/CustomerListItem";
 
