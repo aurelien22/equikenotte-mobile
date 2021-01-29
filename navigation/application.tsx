@@ -6,6 +6,9 @@ import { AntDesign } from '@expo/vector-icons'
 import NewCustomerScreen from "../screens/NewCustomerScreen";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import {UserOutlined} from "@ant-design/icons";
+import HorsesScreen from "../screens/HorsesScreen";
+import HorseInfosScreen from "../screens/HorseInfosScreen";
+import NewHorseScreen from "../screens/NewHorseScreen";
 
 const Stack = createStackNavigator()
 const BottomStack = createBottomTabNavigator()
@@ -110,8 +113,42 @@ function CustomersNavigator(props: any) {
 
 const HorsesStack = createStackNavigator();
 
-function HorsesNavigator() {
+function HorsesNavigator(props: any) {
 
+    return (
+        <HorsesStack.Navigator>
+            <HorsesStack.Screen
+                name="Horses"
+                component={HorsesScreen}
+                options={{
+                    headerTitle: 'Chevaux',
+                    headerTitleStyle: {
+                        fontWeight: "bold",
+                        fontSize: 20,
+                    },
+                    headerRight: () => (
+                        <AntDesign name="pluscircle" size={32} color="#1796D4" style={{ marginRight: 15 }} onPress={() => props.navigation.navigate('NewHorse')} />
+                    )
+                }}
+            />
+            <HorsesStack.Screen name="HorseInfos" component={HorseInfosScreen} options={{
+                headerTitle: 'Fiche cheval',
+                headerBackTitle: 'Chevaux',
+                headerTitleStyle: {
+                    fontWeight: "bold",
+                    fontSize: 20
+                },
+            }}/>
+            <HorsesStack.Screen name="NewHorse" component={NewHorseScreen} options={{
+                headerTitle: 'Nouveau cheval',
+                headerTitleStyle: {
+                    fontWeight: "bold",
+                    fontSize: 20,
+                },
+            }} />
+        </HorsesStack.Navigator>
+
+        )
 }
 
 const AppointmentStack = createStackNavigator();

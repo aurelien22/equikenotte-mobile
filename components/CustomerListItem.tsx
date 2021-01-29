@@ -31,13 +31,9 @@ const styles = StyleSheet.create({
     customerNameSurname: {
         flexDirection: "row"
     },
-    customerName: {
-
-    },
     customerSurname: {
         textTransform: "uppercase",
         fontWeight: "bold"
-
     },
     customerCredit: {
         color: '#1796D4'
