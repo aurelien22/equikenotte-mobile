@@ -31,7 +31,7 @@ export const setHorses = (id: number) => {
     return async (dispatch: Dispatch<HorseAction>) => {
 
         try {
-            const response = await axios.get<HorseModel>('http://192.168.1.51:8000/api/horses', {
+            const response = await axios.get<HorseModel>('http://192.168.1.51:8000/api/dentists/' + id + '/horses', {
                 headers: {
                     Authorization: `Bearer ${store.getState().userReducer.user.token}`
                 }

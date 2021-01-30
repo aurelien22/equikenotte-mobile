@@ -1,7 +1,7 @@
 import React, {Component, useEffect, useState} from 'react';
 import {ActivityIndicator, Button, FlatList, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {useDispatch, useSelector} from "react-redux";
-import {ApplicationState, setCustomers} from "../redux";
+import {ApplicationState, setCustomers, store} from "../redux";
 import {SearchBar} from "../components/SearchBar";
 import HorseListItem from "../components/HorseListItem";
 import {setHorses} from "../redux/actions/horseActions";
@@ -13,7 +13,7 @@ export default function HorsesScreen (props: any) {
     const { horses } = useSelector((state: ApplicationState) => state.horseReducer);
 
     useEffect(() => {
-        dispatch(setHorses(1))
+        dispatch(setHorses(store.getState().userReducer.user.id))
     }, [])
 
     return (
