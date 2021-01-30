@@ -10,9 +10,10 @@ export default function CustomersScreen (props: any) {
     const dispatch = useDispatch();
 
     const { customers } = useSelector((state: ApplicationState) => state.customerReducer);
+    const { user } = useSelector((state: ApplicationState) => state.userReducer);
 
     useEffect(() => {
-        dispatch(setCustomers(1))
+        dispatch(setCustomers(user.id))
     }, [])
 
     return (

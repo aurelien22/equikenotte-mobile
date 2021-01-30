@@ -33,7 +33,7 @@ export const setCustomers = (id: number) => {
     return async (dispatch: Dispatch<CustomerAction>) => {
 
         try {
-            const response = await axios.get<CustomerModel>('http://192.168.1.51:8000/api/dentists/1/customers', {
+            const response = await axios.get<CustomerModel>('http://192.168.1.51:8000/api/dentists/'+ id + '/customers', {
                 headers: {
                     Authorization: `Bearer ${store.getState().userReducer.user.token}`
                 }
@@ -61,7 +61,7 @@ export const addCustomer = (customer: CustomerModel) => {
 
             const response = await axios.post('http://192.168.1.51:8000/api/customers', {
                 ...customer,
-                dentist: "/api/dentists/1"
+                dentist: "/api/dentists/" + store.getState().userReducer.user.id
             }, {
                 headers: {
                     Authorization: `Bearer ${store.getState().userReducer.user.token}`
