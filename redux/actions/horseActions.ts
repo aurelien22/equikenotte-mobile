@@ -1,16 +1,7 @@
 import {Dispatch} from "react";
 import axios from "axios";
 import {store} from "../store";
-import {CustomerAction, CustomerModel} from "./customerActions";
-
-export interface HorseModel {
-    id: number | null,
-    sire: string,
-    name: string,
-    dateOfBirth: Date,
-    owner: number | string | null,
-    acts: any
-}
+import {HorseModel} from "../Types";
 
 export interface SetHorsesAction {
     readonly type: 'SET_HORSES';

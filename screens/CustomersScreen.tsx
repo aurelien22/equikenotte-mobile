@@ -1,5 +1,5 @@
-import React, {Component, useEffect, useState} from 'react';
-import {ActivityIndicator, Button, FlatList, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import React, {useEffect} from 'react';
+import {FlatList, SafeAreaView, StyleSheet, View} from 'react-native';
 import {useDispatch, useSelector} from "react-redux";
 import {ApplicationState, setCustomers} from "../redux";
 import {SearchBar} from "../components/SearchBar";

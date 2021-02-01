@@ -1,18 +1,7 @@
 import {Dispatch} from "react";
 import axios from "axios";
 import {store} from "../store";
-
-export interface CustomerModel {
-    id: number | null,
-    name: string,
-    surname: string,
-    address: string,
-    postalCode: string,
-    city: string,
-    phone: string,
-    mail: string,
-    dentist: number | string | null
-}
+import {CustomerModel} from "../Types";
 
 export interface SetCustomersAction {
     readonly type: 'SET_CUSTOMERS';

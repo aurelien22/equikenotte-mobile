@@ -1,21 +1,7 @@
 import axios from "axios";
-import { BASE_URL } from "../../utils";
 import { Dispatch } from "react";
 import jwtDecode from "jwt-decode";
-
-export interface UserModel {
-    id: number,
-    name: string,
-    surname: string,
-    tradename: string,
-    siret: string,
-    address: string,
-    postalCode: string,
-    city: string,
-    phone: string,
-    mail: string,
-    token: string
-}
+import {UserModel} from "../Types";
 
 export interface UserResponseModel {
     token: string

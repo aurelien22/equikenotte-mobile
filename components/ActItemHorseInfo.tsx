@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import moment from "moment";
 
 export default function ActItemHorseInfo (props: any) {
