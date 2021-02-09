@@ -5,10 +5,12 @@ import CustomerInfosScreen from "../screens/CustomerInfosScreen";
 import { AntDesign } from '@expo/vector-icons'
 import NewCustomerScreen from "../screens/NewCustomerScreen";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
-import {UserOutlined} from "@ant-design/icons";
 import HorsesScreen from "../screens/HorsesScreen";
 import HorseInfosScreen from "../screens/HorseInfosScreen";
 import NewHorseScreen from "../screens/NewHorseScreen";
+import ActsScreen from "../screens/ActsScreen";
+import ActInfosScreen from "../screens/ActInfosScreen";
+import NewActScreen from "../screens/NewActScreen";
 
 const Stack = createStackNavigator()
 const BottomStack = createBottomTabNavigator()
@@ -159,7 +161,42 @@ function AppointmentNavigator() {
 
 const ActsStack = createStackNavigator();
 
-function ActsNavigator() {
+function ActsNavigator(props: any) {
+
+    return (
+        <ActsStack.Navigator>
+            <ActsStack.Screen
+                name="Acts"
+                component={ActsScreen}
+                options={{
+                    headerTitle: 'Actes',
+                    headerTitleStyle: {
+                        fontWeight: "bold",
+                        fontSize: 20,
+                    },
+                    headerRight: () => (
+                        <AntDesign name="pluscircle" size={32} color="#1796D4" style={{ marginRight: 15 }} onPress={() => props.navigation.navigate('NewAct')} />
+                    )
+                }}
+            />
+            <ActsStack.Screen name="ActInfos" component={ActInfosScreen} options={{
+                headerTitle: 'Fiche act',
+                headerBackTitle: 'Actes',
+                headerTitleStyle: {
+                    fontWeight: "bold",
+                    fontSize: 20
+                },
+            }}/>
+            <ActsStack.Screen name="NewAct" component={NewActScreen} options={{
+                headerTitle: 'Nouvel acte',
+                headerTitleStyle: {
+                    fontWeight: "bold",
+                    fontSize: 20,
+                },
+            }} />
+        </ActsStack.Navigator>
+
+    )
 
 }
 

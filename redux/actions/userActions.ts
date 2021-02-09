@@ -39,7 +39,7 @@ export const onLogin = (username: string, password: string) => {
             if (!response) {
                 dispatch({
                     type: "ON_ERROR",
-                    payload: 'identifiant ou mot de passe incorrect'
+                    payload: 'Erreur serveur'
                 })
             } else {
 
@@ -51,7 +51,7 @@ export const onLogin = (username: string, password: string) => {
         } catch (error) {
             dispatch({
                 type: "ON_ERROR",
-                payload: 'Erreur autre'
+                payload: 'identifiant ou mot de passe incorrect'
             })
         }
     }

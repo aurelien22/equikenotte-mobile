@@ -1,38 +1,32 @@
 import React, {useLayoutEffect, useState} from 'react';
 import {Button, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
-import {addHorse, ApplicationState, HorseModel} from "../redux";
+import {addHorse, ApplicationState} from "../redux/";
+import {HorseModel} from "../redux/Types";
 import {useDispatch, useSelector} from "react-redux";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import {Picker} from "@react-native-picker/picker";
+import {Controller, useForm} from "react-hook-form";
 
 export default function NewHorseScreen ({ navigation }) {
 
-    const [sire, setSire] = useState<string>('');
-    const [name, setName] = useState<string>('');
-    const [dateOfBirth, setDateOfBirth] = useState<Date>(new Date());
-    const [owner, setOwner] = useState<string>('');
+    const {register, handleSubmit, setValue, errors, control} = useForm<HorseModel>();
 
     const { customers } = useSelector((state: ApplicationState) => state.customerReducer);
-
-    const onChange = (event, selectedDate) => {
-        const currentDate = selectedDate || dateOfBirth;
-        setDateOfBirth(currentDate);
-    }
 
     const dispatch = useDispatch();
 
     let horse: HorseModel
 
-    const onValidateNewHorse = () => {
+    const onValidateNewHorse = data => {
 
         // On hydrate l'objet horse avec les données du formulaire
 
         horse = {
             id: null,
-            sire: sire,
-            name: name,
-            dateOfBirth: dateOfBirth,
-            owner: owner,
+            sire: data.sire,
+            name: data.name,
+            dateOfBirth: data.dateOfBirth,
+            owner: data.owner,
             acts: []
         }
 
@@ -46,45 +40,83 @@ export default function NewHorseScreen ({ navigation }) {
             <View style={styles.container}>
                 <View>
                     <Text style={styles.labels}>SIRE</Text>
-                    <TextInput
-                        value={sire}
-                        style={styles.inputs}
-                        onChangeText = { text => setSire(text) }
+                    <Controller
+                        control={control}
+                        render={({ onChange, onBlur, value }) => (
+                            <TextInput
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                                style={styles.inputs}
+                                onBlur={onBlur}
+                                onChangeText={value => onChange(value)}
+                                value={value}
+                            />
+                        )}
+                        name="sire"
+                        rules={{ required: true, minLength: 9, maxLength: 9}}
+                        defaultValue=""
                     />
+                    { errors.sire && <Text style={styles.errors}>Veuilez corriger votre saisie</Text> }
                 </View>
                 <View>
                     <Text style={styles.labels}>Nom</Text>
-                    <TextInput
-                        value={name}
-                        style={styles.inputs}
-                        onChangeText={text => setName(text)}
+                    <Controller
+                        control={control}
+                        render={({ onChange, onBlur, value }) => (
+                            <TextInput
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                                style={styles.inputs}
+                                onBlur={onBlur}
+                                onChangeText={value => onChange(value)}
+                                value={value}
+                            />
+                        )}
+                        name="name"
+                        rules={{ required: true, minLength: 3, maxLength: 25, pattern: /^[a-zA-ZÀ-ú\-\s]*/g }}
+                        defaultValue=""
                     />
+                    { errors.name && <Text style={styles.errors}>Veuilez corriger votre saisie</Text> }
                 </View>
                 <View>
-                    <Text style={styles.labels}>Naissance</Text>
-                    <DateTimePicker
-                        value={dateOfBirth}
-                        onChange={onChange}
-                        style={styles.datePicker}
+                    <Text style={styles.labels}>Date de naissance</Text>
+                    <Controller
+                        control={control}
+                        name="dateOfBirth"
+                        defaultValue={new Date()}
+                        render={({ value }) => (
+                            <DateTimePicker
+                                style={styles.datePicker}
+                                onChange={(event, selectedDate) => { setValue('dateOfBirth', selectedDate) }}
+                                value={value}
+                            />
+                        )}
+
                     />
                 </View>
                 <View>
                     <Text style={styles.labels}>Propriétaire</Text>
-                    <Picker
-                        selectedValue={owner}
-                        onValueChange={(itemValue, itemIndex) =>
-                            setOwner(itemValue)
-                        }
-                        style={styles.ownerPicker}
-                    >
-                        { customers.map((item) => <Picker.Item label={item.surname + " " + item.name} value={item['@id']} key={item.id}/> ) }
-                    </Picker>
+                    <Controller
+                        control={control}
+                        name="owner"
+                        defaultValue={new Date()}
+                        render={({ value }) => (
+                            <Picker
+                                selectedValue={value}
+                                onValueChange={(itemValue, itemIndex) =>
+                                    setValue('owner', itemValue)
+                                }
+                                style={styles.ownerPicker}
+                            >
+                                { customers.map((item) => <Picker.Item label={item.surname + " " + item.name} value={item['@id']} key={item.id}/> ) }
+                            </Picker>
+                        )}
+
+                    />
                 </View>
-                <View style={styles.containerButton}>
-                    <TouchableOpacity style={styles.submitButton} onPress={onValidateNewHorse}>
-                        <Text style={styles.buttonText}>Valider</Text>
-                    </TouchableOpacity>
-                </View>
+
+                <Button title="Valider" onPress={handleSubmit(onValidateNewHorse)} />
+
             </View>
         </SafeAreaView>
     )
@@ -135,5 +167,8 @@ const styles = StyleSheet.create({
     },
     datePicker: {
         marginBottom: 20
+    },
+    errors: {
+        color: 'red'
     }
 })

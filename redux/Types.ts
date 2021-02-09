@@ -30,5 +30,26 @@ export interface HorseModel {
     name: string,
     dateOfBirth: Date,
     owner: number | string | null,
-    acts: any
+    acts: ActModel
+}
+
+export interface ActModel {
+    id: number | null,
+    date: Date,
+    billed: boolean,
+    benefits: BenefitModel
+}
+
+export interface BenefitModel {
+    id: number,
+    designation: string,
+    priceWithoutTax: number,
+    taxRate: TaxRate
+}
+
+enum TaxRate {
+    "WITHOUT" = 0,
+    "LOW" = 5.5,
+    "MID" = 10,
+    "HIGH" = 20
 }

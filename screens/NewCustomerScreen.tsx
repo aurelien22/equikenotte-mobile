@@ -1,108 +1,185 @@
-import React, {useLayoutEffect, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {Button, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
-import {addCustomer, CustomerModel} from "../redux";
+import {addCustomer} from "../redux";
 import {useDispatch} from "react-redux";
+import {CustomerModel} from "../redux/Types";
+import {useForm, Controller} from "react-hook-form";
 
 export default function NewCustomerScreen ({ navigation }) {
 
-    const [surname, setSurname] = useState<string>('');
-    const [name, setName] = useState<string>('');
-    const [address, setAddress] = useState<string>('');
-    const [postalCode, setPostalCode] = useState<string>('');
-    const [city, setCity] = useState<string>('');
-    const [phone, setPhone] = useState<string>('');
-    const [mail, setMail] = useState<string>('');
-
     const dispatch = useDispatch();
+
+    const {register, handleSubmit, setValue, errors, control} = useForm<CustomerModel>();
 
     let customer: CustomerModel
 
-    const onValidateNewCustomer = () => {
+    const onValidateNewCustomer = data => {
 
         // On hydrate l'objet customer avec les données du formulaire
 
         customer = {
             id: null,
-            name: name,
-            surname: surname,
-            address: address,
-            postalCode: postalCode,
-            city: city,
-            phone: phone,
-            mail: mail,
+            name: data.name,
+            surname: data.surname,
+            address: data.address,
+            postalCode: data.postalCode,
+            city: data.city,
+            phone: data.phone,
+            mail: data.mail,
             dentist: null
         }
 
-        dispatch(addCustomer(customer));
-        navigation.navigate('Customers')
+        dispatch(addCustomer(data));
+        navigation.navigate('Customers');
+
     }
 
     return(
 
         <SafeAreaView>
-            <View style={styles.container}>
-                <View>
-                    <Text style={styles.labels}>Nom</Text>
-                    <TextInput
-                        value={surname}
-                        style={styles.inputs}
-                        onChangeText = { text => setSurname(text) }
-                    />
+                <View style={styles.container}>
+                    <View>
+                        <Text style={styles.labels}>Nom</Text>
+                        <Controller
+                            control={control}
+                            render={({ onChange, onBlur, value }) => (
+                                <TextInput
+                                    autoCapitalize="none"
+                                    autoCorrect={false}
+                                    style={styles.inputs}
+                                    onBlur={onBlur}
+                                    onChangeText={value => onChange(value)}
+                                    value={value}
+                                />
+                            )}
+                            name="surname"
+                            rules={{ required: true, minLength: 3, maxLength: 15, pattern: /^[a-zA-ZÀ-ú\-\s]/g }}
+                            defaultValue=""
+                        />
+                        { errors.surname && <Text style={styles.errors}>Veuilez corriger votre saisie</Text> }
+                    </View>
+                    <View>
+                        <Text style={styles.labels}>Prénom</Text>
+                        <Controller
+                            control={control}
+                            render={({ onChange, onBlur, value }) => (
+                                <TextInput
+                                    autoCapitalize="none"
+                                    autoCorrect={false}
+                                    style={styles.inputs}
+                                    onBlur={onBlur}
+                                    onChangeText={value => onChange(value)}
+                                    value={value}
+                                />
+                            )}
+                            name="name"
+                            rules={{ required: true, minLength: 3, maxLength: 15, pattern: /^[a-zA-ZÀ-ú\-\s]*/g }}
+                            defaultValue=""
+                        />
+                        { errors.name && <Text style={styles.errors}>Veuilez corriger votre saisie</Text> }
+                    </View>
+                    <View>
+                        <Text style={styles.labels}>Adresse</Text>
+                        <Controller
+                            control={control}
+                            render={({ onChange, onBlur, value }) => (
+                                <TextInput
+                                    autoCapitalize="none"
+                                    autoCorrect={false}
+                                    style={styles.inputs}
+                                    onBlur={onBlur}
+                                    onChangeText={value => onChange(value)}
+                                    value={value}
+                                />
+                            )}
+                            name="address"
+                            rules={{ required: true, minLength: 3, maxLength: 20, pattern: /^[a-zA-ZÀ-ú\-\s]*/g }}
+                            defaultValue=""
+                        />
+                        { errors.address && <Text style={styles.errors}>Veuilez corriger votre saisie</Text> }
+                    </View>
+                    <View>
+                        <Text style={styles.labels}>Code Postal</Text>
+                        <Controller
+                            control={control}
+                            render={({ onChange, onBlur, value }) => (
+                                <TextInput
+                                    autoCapitalize="none"
+                                    autoCorrect={false}
+                                    style={styles.inputs}
+                                    onBlur={onBlur}
+                                    onChangeText={value => onChange(value)}
+                                    value={value}
+                                />
+                            )}
+                            name="postalCode"
+                            rules={{ required: true, minLength: 5, maxLength: 5, pattern: /^(([0-8][0-9])|(9[0-5]))[0-9]{3}$/ }}
+                            defaultValue=""
+                        />
+                        { errors.postalCode && <Text style={styles.errors}>Veuilez corriger votre saisie</Text> }
+                    </View>
+                    <View>
+                        <Text style={styles.labels}>Ville</Text>
+                        <Controller
+                            control={control}
+                            render={({ onChange, onBlur, value }) => (
+                                <TextInput
+                                    autoCapitalize="none"
+                                    autoCorrect={false}
+                                    style={styles.inputs}
+                                    onBlur={onBlur}
+                                    onChangeText={value => onChange(value)}
+                                    value={value}
+                                />
+                            )}
+                            name="city"
+                            rules={{ required: true, minLength: 3, maxLength: 15, pattern: /^[a-zA-ZÀ-ú\-\s]*/ }}
+                            defaultValue=""
+                        />
+                        { errors.city && <Text style={styles.errors}>Veuilez corriger votre saisie</Text> }
+                    </View>
+                    <View>
+                        <Text style={styles.labels}>Téléphone</Text>
+                        <Controller
+                            control={control}
+                            render={({ onChange, onBlur, value }) => (
+                                <TextInput
+                                    autoCapitalize="none"
+                                    autoCorrect={false}
+                                    style={styles.inputs}
+                                    onBlur={onBlur}
+                                    onChangeText={value => onChange(value)}
+                                    value={value}
+                                />
+                            )}
+                            name="phone"
+                            rules={{ required: true, minLength: 10, maxLength: 10, pattern: /^[0-9]*$/ }}
+                            defaultValue=""
+                        />
+                        { errors.phone && <Text style={styles.errors}>Veuilez corriger votre saisie</Text> }
+                    </View>
+                    <View>
+                        <Text style={styles.labels}>Email</Text>
+                        <Controller
+                            control={control}
+                            render={({ onChange, onBlur, value }) => (
+                                <TextInput
+                                    autoCapitalize="none"
+                                    autoCorrect={false}
+                                    style={styles.inputs}
+                                    onBlur={onBlur}
+                                    onChangeText={value => onChange(value)}
+                                    value={value}
+                                />
+                            )}
+                            name="mail"
+                            rules={{ required: true, maxLength: 50, pattern: /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/i }}
+                            defaultValue=""
+                        />
+                        { errors.mail && <Text style={styles.errors}>Veuilez corriger votre saisie</Text> }
+                    </View>
+                    <Button title="Valider" onPress={handleSubmit(onValidateNewCustomer)} />
                 </View>
-                <View>
-                    <Text style={styles.labels}>Prénom</Text>
-                    <TextInput
-                        value={name}
-                        style={styles.inputs}
-                        onChangeText={text => setName(text)}
-                    />
-                </View>
-                <View>
-                    <Text style={styles.labels}>Adresse</Text>
-                    <TextInput
-                        value={address}
-                        style={styles.inputs}
-                        onChangeText={text => setAddress(text)}
-                    />
-                </View>
-                <View>
-                    <Text style={styles.labels}>CP</Text>
-                    <TextInput
-                        value={postalCode}
-                        style={styles.inputs}
-                        onChangeText={text => setPostalCode(text)}
-                    />
-                </View>
-                <View>
-                    <Text style={styles.labels}>Ville</Text>
-                    <TextInput
-                        value={city}
-                        style={styles.inputs}
-                        onChangeText={text => setCity(text)}
-                    />
-                </View>
-                <View>
-                    <Text style={styles.labels}>Téléphone</Text>
-                    <TextInput
-                        value={phone}
-                        style={styles.inputs}
-                        onChangeText={text => setPhone(text)}
-                    />
-                </View>
-                <View>
-                    <Text style={styles.labels}>Email</Text>
-                    <TextInput
-                        value={mail}
-                        style={styles.inputs}
-                        onChangeText={text => setMail(text)}
-                    />
-                </View>
-                <View style={styles.containerButton}>
-                    <TouchableOpacity style={styles.submitButton} onPress={onValidateNewCustomer}>
-                        <Text style={styles.buttonText}>Valider</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
         </SafeAreaView>
     )
 }
@@ -147,4 +224,7 @@ const styles = StyleSheet.create({
     buttonText: {
         color: 'white'
     },
+    errors: {
+        color: 'red'
+    }
 })

@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {ActivityIndicator, FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import HorseListItem from "../components/HorseListItem";
 import moment from "moment";
 import ActItemHorseInfo from "../components/ActItemHorseInfo";
 
