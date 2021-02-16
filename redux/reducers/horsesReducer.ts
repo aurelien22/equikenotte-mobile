@@ -1,5 +1,5 @@
-import {HorseAction, HorseModel} from "../actions/horseActions";
-
+import {HorseAction} from "../actions/horseActions";
+import { HorseModel } from "../Types"
 
 type HorsesState = {
     horses: HorseModel[]

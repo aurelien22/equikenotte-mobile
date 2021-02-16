@@ -1,5 +1,5 @@
-import {CustomerAction, CustomerModel} from "../actions/customerActions";
-
+import {CustomerAction} from "../actions/customerActions";
+import {CustomerModel} from "../Types";
 
 type CustomersState = {
     customers: CustomerModel[]

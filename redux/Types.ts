@@ -10,6 +10,7 @@ export interface UserModel {
     phone: string,
     mail: string,
     token: string
+    username: string
 }
 
 export interface CustomerModel {
@@ -25,18 +26,20 @@ export interface CustomerModel {
 }
 
 export interface HorseModel {
+    '@id': string
     id: number | null,
     sire: string,
     name: string,
     dateOfBirth: Date,
     owner: number | string | null,
-    acts: ActModel
+    acts: []
 }
 
 export interface ActModel {
     id: number | null,
     date: Date,
     billed: boolean,
+    horse: string
     benefits: BenefitModel
 }
 
@@ -45,6 +48,15 @@ export interface BenefitModel {
     designation: string,
     priceWithoutTax: number,
     taxRate: TaxRate
+}
+
+export interface AppointmentModel {
+    id: number,
+    date: Date,
+    startTime: any,
+    endTime: any,
+    numberOfHorses: number,
+    customer: CustomerModel
 }
 
 enum TaxRate {

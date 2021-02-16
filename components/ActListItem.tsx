@@ -1,6 +1,7 @@
 import React from 'react';
 import {Button, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import moment from "moment";
+import {Divider} from "@ui-kitten/components";
 
 export default function ActListItem (props: any) {
 
@@ -13,19 +14,21 @@ export default function ActListItem (props: any) {
     }
 
     return (
-        <TouchableOpacity style={styles.listItemContainer}
-                          onPress={() => props.navigation.navigate('ActInfos', {act: props.act})}>
-            <View style={styles.informations}>
-                <Text style={styles.id}>Acte n°{props.act.id}</Text>
-                <Text style={styles.name}>{props.act.horse.name}</Text>
-                <Text style={styles.date}>{moment(props.act.date).format('d/MM/YYYY')}</Text>
-            </View>
-            <View style={styles.containerBilled}>
-                {billedText}
-            </View>
+        <View>
+            <TouchableOpacity style={styles.listItemContainer}
+                              onPress={() => props.navigation.navigate('ActInfos', {act: props.act})}>
+                <View style={styles.informations}>
+                    <Text style={styles.id}>Acte n°{props.act.id}</Text>
+                    <Text style={styles.name}>{props.act.horse.name}</Text>
+                    <Text style={styles.date}>{moment(props.act.date).format('d/MM/YYYY')}</Text>
+                </View>
+                <View style={styles.containerBilled}>
+                    {billedText}
+                </View>
+            </TouchableOpacity>
+            <Divider />
+        </View>
 
-
-        </TouchableOpacity>
     )
 
 }
@@ -37,8 +40,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         backgroundColor: 'white',
-        borderBottomColor: '#929292',
-        borderBottomWidth: 1,
     },
     informations: {
         flexDirection: "column"

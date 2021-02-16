@@ -1,14 +1,26 @@
-import {UserAction, UserModel} from '../actions/userActions'
+import {UserAction} from '../actions/userActions'
 import {Alert} from "react-native";
 
 type UserState = {
-    user: UserModel,
-    error: string | undefined
+    user: any,
 }
 
 const initialState = {
-    user: {} as UserModel,
-    error: undefined,
+    user:
+        {
+            id: 0,
+            name: '',
+            surname: '',
+            tradename: '',
+            siret: '',
+            address: '',
+            postalCode: '',
+            city: '',
+            phone: '',
+            mail: '',
+            token: '',
+            username: ''
+        },
 }
 
 const UserReducer = (state: UserState = initialState, action: UserAction) => {
@@ -20,6 +32,29 @@ const UserReducer = (state: UserState = initialState, action: UserAction) => {
                 ...state,
                 user: action.payload
             }
+        case "ON_LOGOUT":
+
+            return {
+                ...state,
+                user: {}
+            }
+        case "ON_MODIF":
+
+            Alert.alert('', 'Modification effectuée')
+
+            return {
+                ...state,
+                tradename: action.payload.tradename,
+                siret: action.payload.siret,
+                name: action.payload.name,
+                surname: action.payload.surname,
+                address: action.payload.address,
+                postalCode: action.payload.postalCode,
+                cit: action.payload.city,
+                phone: action.payload.phone,
+                mail: action.payload.mail,
+            }
+
         case "ON_ERROR":
 
             Alert.alert('', action.payload)

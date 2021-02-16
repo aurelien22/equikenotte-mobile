@@ -1,11 +1,34 @@
 import React from "react";
-import {ActivityIndicator, Text, View} from "react-native";
+import {StyleSheet} from "react-native";
+import {Layout, Spinner, Text} from "@ui-kitten/components";
 
 export default function SplashScreen() {
     return (
-        <View style={{backgroundColor: "#31393C", alignItems: 'center', justifyContent: 'center', flex: 1}}>
-            <ActivityIndicator style={{marginBottom: 20}} />
-            <Text style={{color: 'white'}}>Chargement</Text>
-        </View>
+        <Layout style={styles.container}>
+            <Text
+                category='s1'
+                style={styles.text}
+            >
+                Chargement
+            </Text>
+            <Spinner
+                size='giant'
+                status='info'
+            />
+        </Layout>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: '#31393C',
+        flex: 1,
+        alignItems: "center",
+        alignContent: "center",
+        justifyContent: "center"
+    },
+    text: {
+        color: '#1796D4',
+        marginBottom: 30
+    },
+})

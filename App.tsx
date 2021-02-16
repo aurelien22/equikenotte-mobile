@@ -1,22 +1,22 @@
-import React, {createContext, useEffect, useMemo, useState} from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
+import React from 'react';
 import Routes from './navigation/Routes';
-
 import { Provider } from 'react-redux'
 import { store } from "./redux";
 import {NavigationContainer} from "@react-navigation/native";
-import CustomersScreen from "./screens/CustomersScreen";
-import NewCustomerScreen from "./screens/NewCustomerScreen";
+import {ApplicationProvider, IconRegistry} from "@ui-kitten/components";
+import * as eva from '@eva-design/eva';
+import { EvaIconsPack } from '@ui-kitten/eva-icons';
 
 export default function App() {
 
-    const MainStack = createStackNavigator();
-
     return (
         <Provider store={store}>
-            <NavigationContainer>
-                <Routes />
-            </NavigationContainer>
+            <IconRegistry icons={EvaIconsPack} />
+            <ApplicationProvider {...eva} theme={eva.light}>
+                <NavigationContainer>
+                    <Routes />
+                </NavigationContainer>
+            </ApplicationProvider>
         </ Provider>
     )
 }

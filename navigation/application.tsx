@@ -11,8 +11,10 @@ import NewHorseScreen from "../screens/NewHorseScreen";
 import ActsScreen from "../screens/ActsScreen";
 import ActInfosScreen from "../screens/ActInfosScreen";
 import NewActScreen from "../screens/NewActScreen";
+import ProfileScreen from "../screens/ProfileScreen"
+import AgendaScreen from "../screens/AgendaScreen";
+import NewAppointmentScreen from "../screens/NewAppointmentScreen";
 
-const Stack = createStackNavigator()
 const BottomStack = createBottomTabNavigator()
 
 export default function ApplicationStack(props: any) {
@@ -68,6 +70,16 @@ export default function ApplicationStack(props: any) {
                     tabBarLabel: 'Factures',
                     tabBarIcon: () => (
                         <AntDesign name="form" size={28} color={'#1796D4'} />
+                    )
+                }}
+            />
+            <BottomStack.Screen
+                name="Settings"
+                component={SettingsNavigator}
+                options={{
+                    tabBarLabel: 'Réglages',
+                    tabBarIcon: () => (
+                        <AntDesign name="setting" size={28} color={'#1796D4'} />
                     )
                 }}
             />
@@ -155,8 +167,33 @@ function HorsesNavigator(props: any) {
 
 const AppointmentStack = createStackNavigator();
 
-function AppointmentNavigator() {
+function AppointmentNavigator(props: any) {
 
+    return (
+        <AppointmentStack.Navigator>
+            <AppointmentStack.Screen
+                name="Agenda"
+                component={AgendaScreen}
+                options={{
+                    headerTitle: 'Agenda',
+                    headerTitleStyle: {
+                        fontWeight: "bold",
+                        fontSize: 20,
+                    },
+                    headerRight: () => (
+                        <AntDesign name="pluscircle" size={32} color="#1796D4" style={{ marginRight: 15 }} onPress={() => props.navigation.navigate('NewAppointment')} />
+                    )
+                }}
+            />
+            <AppointmentStack.Screen name="NewAppointment" component={NewAppointmentScreen} options={{
+                headerTitle: 'Nouveau rendez-vous',
+                headerTitleStyle: {
+                    fontWeight: "bold",
+                    fontSize: 20,
+                },
+            }} />
+        </AppointmentStack.Navigator>
+    )
 }
 
 const ActsStack = createStackNavigator();
@@ -180,7 +217,7 @@ function ActsNavigator(props: any) {
                 }}
             />
             <ActsStack.Screen name="ActInfos" component={ActInfosScreen} options={{
-                headerTitle: 'Fiche act',
+                headerTitle: 'Fiche acte',
                 headerBackTitle: 'Actes',
                 headerTitleStyle: {
                     fontWeight: "bold",
@@ -203,5 +240,28 @@ function ActsNavigator(props: any) {
 const BillsStack = createStackNavigator();
 
 function BillsNavigator() {
+
+}
+
+const SettingsStack = createStackNavigator();
+
+function SettingsNavigator(props: any) {
+
+    return (
+        <SettingsStack.Navigator>
+            <SettingsStack.Screen
+                name="Logout"
+                component={ProfileScreen}
+                options={{
+                    headerTitle: 'Profil',
+                    headerTitleStyle: {
+                        fontWeight: "bold",
+                        fontSize: 20,
+                    },
+                }}
+            />
+        </SettingsStack.Navigator>
+
+    )
 
 }

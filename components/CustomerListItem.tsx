@@ -1,41 +1,44 @@
 import React from 'react';
-import {Button, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
+import {Icon, ListItem, Text} from "@ui-kitten/components";
 
 export default function CustomerListItem (props: any) {
 
+    const renderArrowIcon = (props) => (
+        <Icon {...props} name='arrow-ios-forward' />
+    );
+
+    const renderPersonIcon = (props) => (
+        <Icon {...props} name='person' />
+    );
+
     return (
-        <TouchableOpacity style={styles.customerListItemContainer}
-                          onPress={() => props.navigation.navigate('CustomerInfos', {customer: props.customer})}>
-            <View style={styles.customerNameSurname}>
-                <Text style={styles.customerSurname}>{props.customer.surname} </Text>
-                <Text style={styles.customerName}>{props.customer.name}</Text>
-            </View>
 
-            <Text style={styles.customerCredit}>Solde : 120,00€</Text>
-        </TouchableOpacity>
+        <ListItem
+            title={() => (<View style={styles.informations}>
+                <Text style={styles.surname}>{props.customer.surname} </Text>
+                <Text style={styles.name}>{props.customer.name}</Text>
+            </View>)}
+            style={styles.container}
+            onPress={() => props.navigation.navigate('CustomerInfos', {customer: props.customer})}
+            accessoryLeft={renderPersonIcon}
+            accessoryRight={renderArrowIcon}
+        />
     )
-
 }
 
 const styles = StyleSheet.create({
-    customerListItemContainer: {
-        padding: 15,
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        backgroundColor: 'white',
-        borderBottomColor: '#929292',
-        borderBottomWidth: 1,
-        marginTop: 10,
+    container: {
+        paddingTop: 20,
+        paddingBottom: 20
     },
-    customerNameSurname: {
+    informations: {
         flexDirection: "row"
     },
-    customerSurname: {
+    surname: {
         textTransform: "uppercase",
         fontWeight: "bold"
     },
-    customerCredit: {
-        color: '#1796D4'
+    name: {
     }
 })

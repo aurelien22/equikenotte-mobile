@@ -1,7 +1,10 @@
-import React, {Component} from 'react';
-import {ActivityIndicator, FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React from 'react';
+import {
+    StyleSheet,
+    View
+} from 'react-native';
 import moment from "moment";
-import ActItemHorseInfo from "../components/ActItemHorseInfo";
+import {Card, Divider, Layout, List, Text} from "@ui-kitten/components";
 
 export default function HorseInfosScreen (props: any) {
 
@@ -9,57 +12,85 @@ export default function HorseInfosScreen (props: any) {
 
     return(
 
-        horse != null ? (
-            <SafeAreaView style={styles.safeArea}>
-                <View style={styles.customerInfoContainer}>
-                    <Text style={styles.labels}>SIRE</Text>
-                    <Text style={styles.infos}>{horse.sire}</Text>
-
-                    <Text style={styles.labels}>Nom</Text>
-                    <Text style={styles.infos}>{horse.name}</Text>
-
-                    <Text style={styles.labels}>Naissance</Text>
-                    <Text style={styles.infos}>{moment(horse.dateOfBirth).format('d/MM/YYYY')}</Text>
-
-                    <Text style={styles.labels}>Propriétaire</Text>
-                    <Text style={styles.infos}>A remplir</Text>
-
-                    <Text style={styles.labels}>Actes réalisés</Text>
-                    <FlatList
+        <View style={styles.container}>
+            <React.Fragment>
+                <Layout level='1' style={styles.lines}>
+                    <Text
+                        appearance='default'
+                        category='s1'>
+                        SIRE
+                    </Text>
+                    <Text
+                        appearance='hint'
+                        category='s1'>
+                        {horse.sire}
+                    </Text>
+                </Layout>
+                <Divider />
+            </React.Fragment>
+            <React.Fragment>
+                <Layout level='1' style={styles.lines}>
+                    <Text
+                        appearance='default'
+                        category='s1'>
+                        Nom
+                    </Text>
+                    <Text
+                        appearance='hint'
+                        category='s1'>
+                        {horse.name}
+                    </Text>
+                </Layout>
+                <Divider />
+            </React.Fragment>
+            <React.Fragment>
+                <Layout level='1' style={styles.lines}>
+                    <Text
+                        appearance='default'
+                        category='s1'>
+                        Date de naissance
+                    </Text>
+                    <Text
+                        appearance='hint'
+                        category='s1'>
+                        {moment(horse.dateOfBirth).format('d/MM/YYYY')}
+                    </Text>
+                </Layout>
+                <Divider />
+            </React.Fragment>
+            <React.Fragment>
+                <Layout level='1' style={styles.lines}>
+                    <Text
+                        appearance='default'
+                        category='s1'>
+                        Historique des actes
+                    </Text>
+                </Layout>
+            </React.Fragment>
+            <React.Fragment>
+                <Layout level='1' style={styles.lines}>
+                    <List
                         data={horse.acts}
-                        renderItem={({item}) => <ActItemHorseInfo act={item} />}
-                        keyExtractor={(item) => item.id.toString()}
+                        scrollEnabled={false}
+                        renderItem={(item) => <Card status='info'><Text>Acte n°{item.item.id} du {moment(item.item.date).format('d/MM/YYYY')}</Text></Card>}
                     />
-
-                </View>
-            </SafeAreaView>
-        ) : (
-            <ActivityIndicator />
-        )
+                </Layout>
+            </React.Fragment>
+        </View>
     )
 
 }
 
 const styles = StyleSheet.create({
-    safeArea: {
-        backgroundColor: 'white'
-    },
-    customerInfoContainer: {
-        padding: 20,
-        height: '100%',
-        width: '100%',
+    container: {
         backgroundColor: 'white',
-        borderTopColor: '#1796D4',
-        borderTopWidth: 2,
+        flex: 1,
+        paddingTop: 24
     },
-    labels: {
-        fontSize: 22,
-        fontWeight: "bold"
-    },
-    infos: {
-        fontSize: 22,
-        color: '#808080',
-        marginTop: 10,
-        marginBottom: 20
+    lines: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: 16
     },
 })

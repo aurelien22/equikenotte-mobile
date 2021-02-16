@@ -1,34 +1,35 @@
 import React from 'react';
 import {Button, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {Icon, ListItem} from "@ui-kitten/components";
 
 export default function HorseListItem (props: any) {
 
-    return (
-        <TouchableOpacity style={styles.container}
-                          onPress={() => props.navigation.navigate('HorseInfos', {horse: props.horse})} >
-            <Text style={styles.name}>{ props.horse.name }</Text>
-            <Text style={styles.credit}>Solde : 120,00€</Text>
+    const renderArrowIcon = (props) => (
+        <Icon {...props} name='arrow-ios-forward' />
+    );
+    const renderLeftArrowIcon = (props) => (
+        <Icon {...props} name='radio-button-off-outline' />
+    );
 
-        </TouchableOpacity>
+    return (
+
+        <ListItem
+            title={() => <Text style={styles.name}>{props.horse.name}</Text>}
+            style={styles.container}
+            onPress={() => props.navigation.navigate('HorseInfos', {horse: props.horse})}
+            accessoryLeft={renderLeftArrowIcon}
+            accessoryRight={renderArrowIcon}
+        />
     )
 
 }
 
 const styles = StyleSheet.create({
     container: {
-        padding: 15,
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        backgroundColor: 'white',
-        borderBottomColor: '#929292',
-        borderBottomWidth: 1,
-        marginTop: 10,
+        paddingTop: 20,
+        paddingBottom: 20
     },
     name: {
-        fontWeight: "bold"
-    },
-    credit: {
-        color: '#1796D4'
+        textTransform: "capitalize"
     }
 })

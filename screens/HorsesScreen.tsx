@@ -5,37 +5,29 @@ import {ApplicationState, store} from "../redux";
 import {SearchBar} from "../components/SearchBar";
 import HorseListItem from "../components/HorseListItem";
 import {setHorses} from "../redux";
+import {Divider, List} from "@ui-kitten/components";
+import CustomerListItem from "../components/CustomerListItem";
 
 export default function HorsesScreen (props: any) {
 
-    const dispatch = useDispatch();
-
     const { horses } = useSelector((state: ApplicationState) => state.horseReducer);
 
-    useEffect(() => {
-        dispatch(setHorses(store.getState().userReducer.user.id))
-    }, [])
-
     return (
-        <SafeAreaView >
-            <View style={styles.container}>
-                <SearchBar />
-                <FlatList
-                    data={horses}
-                    renderItem={({item}) => <HorseListItem horse={item} navigation={props.navigation}/>}
-                    keyExtractor={(item) => item.id.toString()}
-                    style={styles.list}
-                />
-            </View>
+        <SafeAreaView style={styles.container}>
+            <List
+                data={horses}
+                ItemSeparatorComponent={Divider}
+                renderItem={({item}) => <HorseListItem horse={item} navigation={props.navigation}/>}
+                keyExtractor={(item) => item.id.toString()}
+            />
         </SafeAreaView>
-
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        display: "flex",
-        backgroundColor: 'white'
+        flex: 1,
+        backgroundColor: 'white',
     },
     list: {
         marginTop: 10,

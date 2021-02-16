@@ -1,15 +1,15 @@
-import React, {useLayoutEffect, useState} from 'react';
-import {Button, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import React from 'react';
+import {ScrollView, StyleSheet, View} from 'react-native';
 import {addHorse, ApplicationState} from "../redux/";
 import {HorseModel} from "../redux/Types";
 import {useDispatch, useSelector} from "react-redux";
-import DateTimePicker from "@react-native-community/datetimepicker";
 import {Picker} from "@react-native-picker/picker";
 import {Controller, useForm} from "react-hook-form";
+import {Divider, Layout, Text, Datepicker, Input, Button} from "@ui-kitten/components";
 
 export default function NewHorseScreen ({ navigation }) {
 
-    const {register, handleSubmit, setValue, errors, control} = useForm<HorseModel>();
+    const {handleSubmit, setValue, errors, control} = useForm<HorseModel>();
 
     const { customers } = useSelector((state: ApplicationState) => state.customerReducer);
 
@@ -34,139 +34,163 @@ export default function NewHorseScreen ({ navigation }) {
         navigation.navigate('Horses')
     }
 
+    const displayError = (inputName: string) => {
+        if (errors[inputName]) {
+            return (
+                <Text appearance='hint' category='c1'>Veuilez corriger votre saisie</Text>
+            )
+        } else {
+            return undefined
+        }
+    }
+
     return(
 
-        <SafeAreaView>
-            <View style={styles.container}>
-                <View>
-                    <Text style={styles.labels}>SIRE</Text>
+        <ScrollView
+            style={styles.container}
+            contentContainerStyle={styles.contentContainer}>
+            <View>
+                <React.Fragment>
+                    <Layout level='1' style={styles.lines}>
+                        <Text
+                            appearance='default'
+                            category='s1'>
+                            SIRE
+                        </Text>
                     <Controller
                         control={control}
                         render={({ onChange, onBlur, value }) => (
-                            <TextInput
-                                autoCapitalize="none"
-                                autoCorrect={false}
+                            <Input
+                                size='small'
                                 style={styles.inputs}
-                                onBlur={onBlur}
                                 onChangeText={value => onChange(value)}
                                 value={value}
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                                onBlur={onBlur}
+                                caption={displayError('sire')}
                             />
                         )}
                         name="sire"
                         rules={{ required: true, minLength: 9, maxLength: 9}}
                         defaultValue=""
                     />
-                    { errors.sire && <Text style={styles.errors}>Veuilez corriger votre saisie</Text> }
-                </View>
-                <View>
-                    <Text style={styles.labels}>Nom</Text>
+                    </Layout>
+                    <Divider />
+                </React.Fragment>
+                <React.Fragment>
+                    <Layout level='1' style={styles.lines}>
+                        <Text
+                            appearance='default'
+                            category='s1'>
+                            Nom
+                        </Text>
                     <Controller
                         control={control}
                         render={({ onChange, onBlur, value }) => (
-                            <TextInput
-                                autoCapitalize="none"
-                                autoCorrect={false}
-                                style={styles.inputs}
-                                onBlur={onBlur}
+                            <Input
+                                size='small'
                                 onChangeText={value => onChange(value)}
                                 value={value}
+                                style={styles.inputs}
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                                onBlur={onBlur}
+                                caption={displayError('name')}
                             />
                         )}
                         name="name"
-                        rules={{ required: true, minLength: 3, maxLength: 25, pattern: /^[a-zA-ZÀ-ú\-\s]*/g }}
+                        rules={{ required: true, minLength: 3, maxLength: 25, pattern: /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/g }}
                         defaultValue=""
                     />
-                    { errors.name && <Text style={styles.errors}>Veuilez corriger votre saisie</Text> }
-                </View>
-                <View>
-                    <Text style={styles.labels}>Date de naissance</Text>
+                    </Layout>
+                    <Divider />
+                </React.Fragment>
+                <React.Fragment>
+                    <Layout level='1' style={styles.lines}>
+                        <Text
+                            appearance='default'
+                            category='s1'>
+                            Date de naissance
+                        </Text>
                     <Controller
                         control={control}
                         name="dateOfBirth"
                         defaultValue={new Date()}
                         render={({ value }) => (
-                            <DateTimePicker
-                                style={styles.datePicker}
-                                onChange={(event, selectedDate) => { setValue('dateOfBirth', selectedDate) }}
-                                value={value}
+                            <Datepicker
+                                date={value}
+                                min={new Date('1995/01/01')}
+                                max={new Date()}
+                                onSelect={nextDate => setValue('dateOfBirth', nextDate)}
                             />
                         )}
 
                     />
-                </View>
-                <View>
-                    <Text style={styles.labels}>Propriétaire</Text>
-                    <Controller
-                        control={control}
-                        name="owner"
-                        defaultValue={new Date()}
-                        render={({ value }) => (
-                            <Picker
-                                selectedValue={value}
-                                onValueChange={(itemValue, itemIndex) =>
-                                    setValue('owner', itemValue)
-                                }
-                                style={styles.ownerPicker}
-                            >
-                                { customers.map((item) => <Picker.Item label={item.surname + " " + item.name} value={item['@id']} key={item.id}/> ) }
-                            </Picker>
-                        )}
+                    </Layout>
+                    <Divider />
+                </React.Fragment>
+                <React.Fragment>
+                    <Layout level='1' style={styles.lines}>
+                    <Text
+                        appearance='default'
+                        category='s1'
 
-                    />
-                </View>
+                    >
+                        Propriétaire
+                    </Text>
+                    </Layout>
+                        <Controller
+                            control={control}
+                            name="owner"
+                            defaultValue={new Date()}
+                            render={({ value }) => (
+                                <Picker
+                                    selectedValue={value}
+                                    onValueChange={(itemValue) =>
+                                        setValue('owner', itemValue)
+                                    }
+                                >
+                                    { customers.map((item) => <Picker.Item label={item.surname + " " + item.name} value={item['@id']} key={item.id}/> ) }
+                                </Picker>
+                            )}
 
-                <Button title="Valider" onPress={handleSubmit(onValidateNewHorse)} />
+                        />
+                </React.Fragment>
+
+                <Button
+                    size='medium'
+                    status='success'
+                    onPress={handleSubmit(onValidateNewHorse)}
+                    style={styles.button}
+                >AJOUTER</Button>
 
             </View>
-        </SafeAreaView>
+        </ScrollView>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        display: "flex",
-        backgroundColor: 'white',
-        width: '100%',
-        height: '100%',
-        paddingLeft: 15,
-        paddingRight: 15,
-        paddingTop: 15,
-        borderTopColor: '#1796D4',
-        borderTopWidth: 2,
+        flex: 1,
+        backgroundColor: 'white'
     },
-    labels: {
-        fontWeight: "bold",
-        fontSize: 20,
-        marginBottom: 8
+    contentContainer: {
+        paddingVertical: 24
+    },
+    lines: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: 16
     },
     inputs: {
-        marginRight: 5,
-        marginBottom: 20,
-        height: 35,
-        borderColor: "#000000",
-        borderWidth: 1,
-        paddingLeft: 10
+        width: '60%'
     },
-    containerButton: {
-        alignItems: "center",
-    },
-    submitButton: {
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: '#1796D4',
-        width: '80%',
-        height: 40,
-        marginTop: 60,
-        borderRadius: 3
-    },
-    buttonText: {
-        color: 'white'
-    },
-    ownerPicker: {
-
-    },
-    datePicker: {
-        marginBottom: 20
+    button: {
+        width: 250,
+        alignSelf: "center",
+        marginTop: 20,
     },
     errors: {
         color: 'red'

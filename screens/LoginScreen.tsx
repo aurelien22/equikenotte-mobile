@@ -1,41 +1,29 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {
-    Alert,
     Image,
     SafeAreaView,
     StyleSheet,
     Text,
     TextInput,
     TouchableOpacity,
-    View
 } from 'react-native';
 import logo from '../assets/logo.png';
 
-import { useSelector, useDispatch } from "react-redux";
-import { ApplicationState, onLogin } from "../redux";
+import { useDispatch } from "react-redux";
+import { onLogin } from "../redux";
+import {Controller, useForm} from "react-hook-form";
+import {UserModel} from "../redux/Types";
 
 export default function loginScreen(props: any) {
 
     const {navigation} = props
-    const {navigate} = navigation
 
-    const [username, setUsername] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
+    const {handleSubmit, errors, control} = useForm<UserModel>();
 
     const dispatch = useDispatch();
 
-    const { user, error} = useSelector((state: ApplicationState) => state.userReducer);
-
-    const { token } = user
-
-    useEffect(() => {
-        if (token !== undefined) {
-            navigate('Application')
-        }
-    })
-
-    const onTapLogin = () => {
-        dispatch(onLogin(username, password))
+    const onTapLogin = data => {
+        dispatch(onLogin(data.username, data.password))
     }
 
     return (
@@ -44,22 +32,44 @@ export default function loginScreen(props: any) {
                     source={logo}
                     style={styles.logo}
                 />
-                <TextInput
-                    value={username}
-                    style={styles.textInput}
-                    placeholder={'leslie29'}
-                    autoCapitalize='none'
-                    onChangeText={userUsername => setUsername(userUsername)}
+                <Controller
+                    control={control}
+                    render={({ onChange, onBlur, value }) => (
+                        <TextInput
+                            autoCapitalize="none"
+                            placeholder="username"
+                            autoCorrect={false}
+                            style={styles.textInput}
+                            onBlur={onBlur}
+                            onChangeText={value => onChange(value)}
+                            value={value}
+                        />
+                    )}
+                    name="username"
+                    rules={{ required: true, minLength: 3, maxLength: 15}}
+                    defaultValue=""
                 />
-                <TextInput
-                    value={password}
-                    style={styles.textInput}
-                    placeholder={'password'}
-                    secureTextEntry={true}
-                    onChangeText={userPassword => setPassword(userPassword)}
+                { errors.username && <Text style={styles.errors}>Veuilez corriger votre saisie</Text> }
+                <Controller
+                    control={control}
+                    render={({ onChange, onBlur, value }) => (
+                        <TextInput
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                            placeholder="password"
+                            style={styles.textInput}
+                            onBlur={onBlur}
+                            onChangeText={value => onChange(value)}
+                            value={value}
+                            secureTextEntry={true}
+                        />
+                    )}
+                    name="password"
+                    rules={{ required: true, minLength: 3, maxLength: 20}}
+                    defaultValue=""
                 />
                 <Text style={styles.motdepasseoublie} onPress={() => navigation.navigate("ForgotPassword")}>Mot de passe oublié</Text>
-                <TouchableOpacity style={styles.submitButton} onPress={onTapLogin}>
+                <TouchableOpacity style={styles.submitButton} onPress={handleSubmit(onTapLogin)}>
                     <Text style={styles.buttonText}>CONNEXION </Text>
                 </TouchableOpacity>
             </SafeAreaView>
@@ -101,5 +111,8 @@ const styles = StyleSheet.create({
     motdepasseoublie: {
         color: 'white',
         marginTop: 8
+    },
+    errors: {
+        color: 'red'
     }
 })

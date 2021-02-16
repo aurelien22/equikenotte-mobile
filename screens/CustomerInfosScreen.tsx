@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {ActivityIndicator, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {ActivityIndicator, SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
+import {Divider, Layout, Text} from "@ui-kitten/components";
 
 export default function CustomerInfosScreen (props: any) {
 
@@ -7,47 +8,136 @@ export default function CustomerInfosScreen (props: any) {
 
     return(
 
-        customer != null ? (
-            <SafeAreaView style={styles.safeArea}>
-                <View style={styles.customerInfoContainer}>
-                    <Text style={styles.labels}>Nom</Text>
-                    <Text style={styles.infos}>{customer.surname}</Text>
+            <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+                <React.Fragment>
+                    <Layout level='1' style={styles.lines}>
+                        <Text
+                            appearance='default'
+                            category='s1'>
+                            Nom
+                        </Text>
+                        <Text
+                            appearance='hint'
+                            category='s1'>
+                            {customer.surname}
+                        </Text>
+                    </Layout>
+                    <Divider />
+                </React.Fragment>
 
-                    <Text style={styles.labels}>Prénom</Text>
-                    <Text style={styles.infos}>{customer.name}</Text>
+                <React.Fragment>
+                    <Layout level='1' style={styles.lines}>
+                        <Text
+                            appearance='default'
+                            category='s1'>
+                            Prénom
+                        </Text>
+                        <Text
+                            appearance='hint'
+                            category='s1'>
+                            {customer.name}
+                        </Text>
+                    </Layout>
+                    <Divider />
+                </React.Fragment>
 
-                    <Text style={styles.labels}>Adresse</Text>
-                    <Text style={styles.infos}>{customer.address}</Text>
+                <React.Fragment>
+                    <Layout level='1' style={styles.lines}>
+                        <Text
+                            appearance='default'
+                            category='s1'>
+                            Adresse
+                        </Text>
+                        <Text
+                            appearance='hint'
+                            category='s1'>
+                            {customer.address}
+                        </Text>
+                    </Layout>
+                    <Divider />
+                </React.Fragment>
 
-                    <View style={styles.addressPostalCode}>
-                        <View>
-                            <Text style={styles.labels}>CP</Text>
-                            <Text style={styles.infos}>{customer.postalCode}</Text>
-                        </View>
-                        <View>
-                            <Text style={styles.labels}>Ville</Text>
-                            <Text style={styles.infos}>{customer.city}</Text>
-                        </View>
-                    </View>
+                <React.Fragment>
+                    <Layout level='1' style={styles.lines}>
+                        <Text
+                            appearance='default'
+                            category='s1'>
+                            Code postal
+                        </Text>
+                        <Text
+                            appearance='hint'
+                            category='s1'>
+                            {customer.postalCode}
+                        </Text>
+                    </Layout>
+                    <Divider />
+                </React.Fragment>
 
-                    <Text style={styles.labels}>Téléphone</Text>
-                    <Text style={styles.infos}>{customer.phone}</Text>
+                <React.Fragment>
+                    <Layout level='1' style={styles.lines}>
+                        <Text
+                            appearance='default'
+                            category='s1'>
+                            Ville
+                        </Text>
+                        <Text
+                            appearance='hint'
+                            category='s1'>
+                            {customer.city}
+                        </Text>
+                    </Layout>
+                    <Divider />
+                </React.Fragment>
 
-                    <Text style={styles.labels}>Email</Text>
-                    <Text style={styles.infos}>{customer.mail}</Text>
+                <React.Fragment>
+                    <Layout level='1' style={styles.lines}>
+                        <Text
+                            appearance='default'
+                            category='s1'>
+                            Téléphone
+                        </Text>
+                        <Text
+                            appearance='hint'
+                            category='s1'>
+                            {customer.phone}
+                        </Text>
+                    </Layout>
+                    <Divider />
+                </React.Fragment>
 
-                </View>
-            </SafeAreaView>
-        ) : (
-            <ActivityIndicator />
-        )
+                <React.Fragment>
+                    <Layout level='1' style={styles.lines}>
+                        <Text
+                            appearance='default'
+                            category='s1'>
+                            Email
+                        </Text>
+                        <Text
+                            appearance='hint'
+                            category='s1'>
+                            {customer.mail}
+                        </Text>
+                    </Layout>
+                    <Divider />
+                </React.Fragment>
+            </ScrollView>
     )
 
 }
 
 const styles = StyleSheet.create({
-    safeArea: {
-        backgroundColor: 'white'
+    container: {
+        backgroundColor: 'white',
+        flex: 1,
+    },
+    contentContainer: {
+        paddingVertical: 24,
+    },
+    lines: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: 16
     },
     customerInfoContainer: {
         padding: 20,

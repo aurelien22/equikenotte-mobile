@@ -2,6 +2,7 @@ import {Dispatch} from "react";
 import axios from "axios";
 import {store} from "../store";
 import {ActModel} from "../Types";
+import {BASE_URL} from "../../utils";
 
 export interface SetActsAction {
     readonly type: 'SET_ACTS';
@@ -22,11 +23,7 @@ export const setActs = (id: number) => {
     return async (dispatch: Dispatch<ActAction>) => {
 
         try {
-            const response = await axios.get<ActModel>('http://192.168.1.51:8000/api/dentists/' + id + '/acts', {
-                headers: {
-                    Authorization: `Bearer ${store.getState().userReducer.user.token}`
-                }
-            });
+            const response = await axios.get<ActModel>(BASE_URL + 'dentists/' + id + '/acts');
 
             if (response.data['hydra:member']) {
                 dispatch({
@@ -48,12 +45,8 @@ export const addAct = (act: ActModel) => {
 
         try {
 
-            const response = await axios.post('http://192.168.1.51:8000/api/acts', {
+            const response = await axios.post(BASE_URL + 'acts', {
                 ...act
-            }, {
-                headers: {
-                    Authorization: `Bearer ${store.getState().userReducer.user.token}`
-                }
             });
 
             if (response.status == 201) {

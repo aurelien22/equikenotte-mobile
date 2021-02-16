@@ -2,6 +2,7 @@ import {Dispatch} from "react";
 import axios from "axios";
 import {store} from "../store";
 import {CustomerModel} from "../Types";
+import {BASE_URL} from "../../utils";
 
 export interface SetCustomersAction {
     readonly type: 'SET_CUSTOMERS';
@@ -22,11 +23,7 @@ export const setCustomers = (id: number) => {
     return async (dispatch: Dispatch<CustomerAction>) => {
 
         try {
-            const response = await axios.get<CustomerModel>('http://192.168.1.51:8000/api/dentists/'+ id + '/customers', {
-                headers: {
-                    Authorization: `Bearer ${store.getState().userReducer.user.token}`
-                }
-            });
+            const response = await axios.get<CustomerModel>(BASE_URL + 'dentists/'+ id + '/customers');
 
             if (response.data['hydra:member']) {
                 dispatch({
@@ -48,13 +45,9 @@ export const addCustomer = (customer: CustomerModel) => {
 
         try {
 
-            const response = await axios.post('http://192.168.1.51:8000/api/customers', {
+            const response = await axios.post(BASE_URL + 'customers', {
                 ...customer,
                 dentist: "/api/dentists/" + store.getState().userReducer.user.id
-            }, {
-                headers: {
-                    Authorization: `Bearer ${store.getState().userReducer.user.token}`
-                }
             });
 
             if (response.status == 201) {

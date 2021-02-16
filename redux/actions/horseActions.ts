@@ -2,6 +2,7 @@ import {Dispatch} from "react";
 import axios from "axios";
 import {store} from "../store";
 import {HorseModel} from "../Types";
+import {BASE_URL} from "../../utils";
 
 export interface SetHorsesAction {
     readonly type: 'SET_HORSES';
@@ -22,11 +23,7 @@ export const setHorses = (id: number) => {
     return async (dispatch: Dispatch<HorseAction>) => {
 
         try {
-            const response = await axios.get<HorseModel>('http://192.168.1.51:8000/api/dentists/' + id + '/horses', {
-                headers: {
-                    Authorization: `Bearer ${store.getState().userReducer.user.token}`
-                }
-            });
+            const response = await axios.get<HorseModel>(BASE_URL + 'dentists/' + id + '/horses');
 
             if (response.data['hydra:member']) {
                 dispatch({
@@ -48,12 +45,8 @@ export const addHorse = (horse: HorseModel) => {
 
         try {
 
-            const response = await axios.post('http://192.168.1.51:8000/api/horses', {
+            const response = await axios.post(BASE_URL + 'horses', {
                 ...horse
-            }, {
-                headers: {
-                    Authorization: `Bearer ${store.getState().userReducer.user.token}`
-                }
             });
 
             if (response.status == 201) {
